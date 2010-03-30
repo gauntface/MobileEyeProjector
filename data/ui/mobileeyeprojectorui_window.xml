@@ -1,0 +1,8 @@
+<glade-catalog name="mobileeyeprojectorui_window" domain="glade-3" 
+               depends="gtk+" version="1.0">
+  <glade-widget-classes>
+    <glade-widget-class title="Mobileeyeprojectorui Window" name="MobileeyeprojectoruiWindow" 
+                        generic-name="MobileeyeprojectoruiWindow" parent="GtkWindow"
+                        icon-name="widget-gtk-window"/>
+  </glade-widget-classes>
+</glade-catalog>
