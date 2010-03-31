@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Mobileeyeprojectorui
-Comment=Mobileeyeprojectorui application
-Categories=GNOME;Utility;
-Exec=mobileeyeprojectorui
-Icon=mobileeyeprojectorui
-Terminal=false
-Type=Application
