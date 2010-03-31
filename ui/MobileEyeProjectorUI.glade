@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy project-wide -->
+  <widget class="GtkWindow" id="RootWindow">
+    <signal name="key_press_event" handler="self.on_RootWindow_key_press_event"/>
+    <child>
+      <widget class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <widget class="GtkImage" id="MobileEyeLogo">
+            <property name="visible">True</property>
+            <property name="yalign">1</property>
+            <property name="ypad">10</property>
+            <property name="pixbuf">./res/images/eyeTextIcon.png</property>
+          </widget>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkVBox" id="vbox2">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <widget class="GtkImage" id="bluetoothIcon">
+                <property name="visible">True</property>
+                <property name="yalign">1</property>
+                <property name="ypad">10</property>
+                <property name="pixbuf">./res/images/bluetoothIcon.png</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="bluetoothLabel">
+                <property name="visible">True</property>
+                <property name="yalign">0</property>
+                <property name="ypad">10</property>
+                <property name="label" translatable="yes">Test</property>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>

@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+# Enter application, select UI To set-up and launch
+
+import sys, BluetoothThread, Queue
+try:
+    import pygtk
+    pygtk.require("2.0")
+except:
+    pass
+
+try:
+    import gtk
+    import gtk.glade
+except:
+    sys.exit(1)
+
+#Currently on initialisation, run bluetooth thread to decide of UI
+
+#sendToBluetooth = Queue.Queue()
+#fromBluetooth = Queue.Queue()
+
+#bluetoothThread = BluetoothThread.BluetoothThread(sendToBluetooth, fromBluetooth)
+#bluetoothThread.start()
+
+class MobileEyeUI:
+    
+    def __init__(self):
+        self.gladefile = "./ui/MobileEyeProjectorUI.glade"
+        self.wTree = gtk.glade.XML(self.gladefile)
+        
+        self.window = self.wTree.get_widget("RootWindow")
+        self.window.show()
+        if (self.window):
+			self.window.connect("destroy", gtk.main_quit)
+
+if __name__ == "__main__":
+    frm = MobileEyeUI()
+    gtk.main()
