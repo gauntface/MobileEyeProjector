@@ -17,6 +17,7 @@ class BluetoothThread(threading.Thread):
         self.outQueue = outQueue
         self.killThread = False
         self.server_sock=BluetoothSocket(RFCOMM)
+        self.client_sock=BluetoothSocket(RFCOMM)
         print("Bluetooth init complete")
     
     # On run we try to connect to bluetooth and set up UI
@@ -50,16 +51,21 @@ class BluetoothThread(threading.Thread):
             try:
                 self.update_label("Waiting for connection on RFCOMM channel " + str(port))
                 print("Waiting for connection")
-                client_sock, client_info = self.server_sock.accept()
+                self.client_sock, client_info = self.server_sock.accept()
                 
                 self.update_label("Accepted Connection from " + client_info[0])
                 print("Accepted Connection")
+                
                 try:
                     while self.killThread == False:
-                        data = client_sock.recv(1024)
+                        data = self.client_sock.recv(1024)
+                        print "Received [%s]" % data
+                        
                         if len(data) == 0:
                             break
-                        print "Received [%s]" % data
+                        elif(data == "<ConnectionConfirm></ConnectionConfirm>"):
+                            self.client_sock.send("<ConnectionConfirm></ConnectionConfirm>")
+                            print("Sent <ConnectionConfirm></ConnectionConfirm>")
                 except IOError:
                     print("Connection broke")
                     pass
@@ -78,3 +84,4 @@ class BluetoothThread(threading.Thread):
     
     def signal_kill_thread(self):
         self.killThread = True
+        self.client_sock.shutdown(2)

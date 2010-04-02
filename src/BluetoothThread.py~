@@ -46,14 +46,14 @@ class BluetoothThread(threading.Thread):
                 profiles = [SERIAL_PORT_PROFILE]
             )
         
-        try:
-            while self.killThread == False:
+        while self.killThread == False:
+            try:
                 self.update_label("Waiting for connection on RFCOMM channel " + str(port))
-                
+                print("Waiting for connection")
                 client_sock, client_info = self.server_sock.accept()
                 
                 self.update_label("Accepted Connection from " + client_info[0])
-                
+                print("Accepted Connection")
                 try:
                     while self.killThread == False:
                         data = client_sock.recv(1024)
@@ -61,10 +61,11 @@ class BluetoothThread(threading.Thread):
                             break
                         print "Received [%s]" % data
                 except IOError:
+                    print("Connection broke")
                     pass
                 
-        except IOError:
-            pass
+            except IOError:
+                pass
         
         if self.run == False:
             self.server_sock.close()
