@@ -9,12 +9,11 @@ except:
 
 class BluetoothThread(threading.Thread):
 
-    def __init__(self, label_update_cb, inQueue, outQueue):
+    def __init__(self, label_update_cb, show_markers_cb):
         threading.Thread.__init__(self)
         
         self.label_update_cb = label_update_cb
-        self.inQueue = inQueue
-        self.outQueue = outQueue
+        self.show_markers_cb = show_markers_cb
         self.killThread = False
         self.server_sock=BluetoothSocket(RFCOMM)
         self.client_sock=BluetoothSocket(RFCOMM)
@@ -47,14 +46,20 @@ class BluetoothThread(threading.Thread):
                 profiles = [SERIAL_PORT_PROFILE]
             )
         
+        connectionOnPrevLoop = True
+        
         while self.killThread == False:
             try:
-                self.update_label("Waiting for connection on RFCOMM channel " + str(port))
-                print("Waiting for connection")
+                if(connectionOnPrevLoop == True):
+                    self.update_label("Waiting for connection on RFCOMM channel " + str(port))
+                    print("Waiting for connection")
+                    connectionOnPrevLoop = False
+                
                 self.client_sock, client_info = self.server_sock.accept()
                 
                 self.update_label("Accepted Connection from " + client_info[0])
                 print("Accepted Connection")
+                connectionOnPrevLoop = True
                 
                 try:
                     while self.killThread == False:
@@ -66,6 +71,7 @@ class BluetoothThread(threading.Thread):
                         elif(data == "<ConnectionConfirm></ConnectionConfirm>"):
                             self.client_sock.send("<ConnectionConfirm></ConnectionConfirm>")
                             print("Sent <ConnectionConfirm></ConnectionConfirm>")
+                            self.show_marker_ui()
                 except IOError:
                     print("Connection broke")
                     pass
@@ -85,3 +91,6 @@ class BluetoothThread(threading.Thread):
     def signal_kill_thread(self):
         self.killThread = True
         self.client_sock.shutdown(2)
+    
+    def show_marker_ui(self):
+        gobject.idle_add(self.show_markers_cb)
