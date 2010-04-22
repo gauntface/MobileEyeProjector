@@ -16,7 +16,7 @@ except:
 
 class MarkerUI:
     
-    def __init__(self):
+    def __init__(self, connection_window):
         self.gladefile = "./ui/MobileEyeMarkerUI.glade"
         self.wTree = gtk.glade.XML(self.gladefile)
         
@@ -28,11 +28,13 @@ class MarkerUI:
         
         self.window.show()
         
+        self.connection_window = connection_window
+        
         if self.window:
             self.window.connect("destroy", self.on_RootWindow_destroy)
         
     def on_RootWindow_destroy(self, widget):
-        self.close_program()
+        self.window.hide()
     
     def on_RootWindow_key_press_event(self, widget, event):
         
@@ -50,6 +52,7 @@ class MarkerUI:
     
     def close_program(self):
         self.window.hide()
+        self.connection_window.close_program()
     
 if __name__ == "__main__":
     mobileEye = MarkerUI()

@@ -74,7 +74,7 @@ class MobileEyeUI:
     
     def show_markers(self):
         print("Need to show markers");
-        markerUI = MarkerUI()
+        markerUI = MarkerUI(self)
         
     
 if __name__ == "__main__":

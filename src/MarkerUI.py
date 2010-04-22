@@ -22,8 +22,8 @@ class MarkerUI:
         
         self.window = self.wTree.get_widget("RootWindow")
         
-        #self.window.fullscreen()
-        self.isFullscreen = False
+        self.window.fullscreen()
+        self.isFullscreen = True
         self.window.connect('key_press_event', self.on_RootWindow_key_press_event)
         
         self.window.show()
