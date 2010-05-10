@@ -34,7 +34,7 @@ class MobileEyeUI:
         
         self.window.show()
         
-        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen)
+        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen, self.show_markers)
         
         if self.window:
             self.window.connect("destroy", self.on_RootWindow_destroy)
@@ -57,6 +57,8 @@ class MobileEyeUI:
             else:
                 self.window.fullscreen()
                 self.isFullscreen = True
+        elif event.keyval == 114:
+            self.bluetoothThread.signal_reset_connection()
     
     def close_program(self):
         self.bluetoothThread.signal_kill_thread()
@@ -72,13 +74,17 @@ class MobileEyeUI:
     def startBluetoothThread(self):
         self.bluetoothThread.start()
     
-    def show_blankScreen(self):
-        print("Showing blank projection")
-        self.blankScreen = BlankScreen(self)
+    def show_blankScreen(self, shouldDisplay):
+        if shouldDisplay:
+            print("Showing blank projection")
+            self.blankScreen = BlankScreen(self)
+        elif self.blankScreen:
+            self.blankScreen.hide()
     
-    def show_markers(self):
-        print("Need to show markers");
-        self.markerUI = MarkerUI(self, 45)
+    def show_markers(self, shouldDisplay, rotationAngle):
+        print("Showing markers")
+        if self.blankScreen:
+            self.blankScreen.show_markers(shouldDisplay, rotationAngle)
         
     
 if __name__ == "__main__":

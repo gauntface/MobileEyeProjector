@@ -18,7 +18,7 @@ except:
 
 class MarkerUI:
     
-    def __init__(self, connection_window, rotationAmount):
+    def __init__(self, blank_window, rotationAmount):
         self.gladefile = "./ui/MobileEyeMarkerUI.glade"
         self.wTree = gtk.glade.XML(self.gladefile)
         
@@ -37,12 +37,12 @@ class MarkerUI:
         
         self.window.show()
         
-        self.connection_window = connection_window
+        self.blank_window = blank_window
         
         if self.window:
-            self.window.connect("destroy", self.on_RootWindow_destroy)
+            self.window.connect("destroy", self.window_destroy)
         
-    def on_RootWindow_destroy(self, widget):
+    def hide(self):
         self.window.hide()
     
     def on_RootWindow_key_press_event(self, widget, event):
@@ -59,12 +59,12 @@ class MarkerUI:
                 self.window.fullscreen()
                 self.isFullscreen = True
     
+    def window_destroy(self, widget):
+        self.close_program()
+    
     def close_program(self):
         self.window.hide()
-        self.connection_window.close_program()
-    
-    def on_RootWindow_destroy(self):
-        self.window.hide()
+        self.blank_window.close_program()
     
     def image2pixbuf(self, img):
         fileOut = StringIO.StringIO()

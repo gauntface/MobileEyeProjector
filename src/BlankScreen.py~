@@ -2,6 +2,7 @@
 # Enter application, select UI To set-up and launch
 
 import sys, BluetoothThread, gobject
+from MarkerUI import MarkerUI
 try:
     import pygtk
     pygtk.require("2.0")
@@ -29,11 +30,12 @@ class BlankScreen:
         self.window.show()
         
         self.connection_window = connection_window
+        self.markerUI = None
         
         if self.window:
-            self.window.connect("destroy", self.on_RootWindow_destroy)
+            self.window.connect("destroy", self.window_destroy)
     
-    def on_RootWindow_destroy(self, widget):
+    def hide(self):
         self.window.hide()
     
     def on_RootWindow_key_press_event(self, widget, event):
@@ -50,12 +52,21 @@ class BlankScreen:
                 self.window.fullscreen()
                 self.isFullscreen = True
     
+    def window_destroy(self, widget):
+        self.close_program()
+    
     def close_program(self):
         self.window.hide()
         self.connection_window.close_program()
     
-    def on_RootWindow_destroy(self):
-        self.window.hide()
+    def show_markers(self, shouldDisplay, rotationAngle):
+        print("Showing Markers")
+        if shouldDisplay:
+            if self.markerUI:
+                self.markerUI.hide()
+            self.markerUI = MarkerUI(self, rotationAngle)
+        elif self.markerUI:
+            self.markerUI.hide()
     
 if __name__ == "__main__":
     mobileEye = BlankScreen()
