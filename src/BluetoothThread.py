@@ -92,7 +92,7 @@ class BluetoothThread(threading.Thread):
                 except IOError:
                     print("Connection broke")
                     self.show_blankscreen_ui(False)
-                    self.show_marker_ui(False, 0)m st
+                    self.show_marker_ui(False, 0)
                     pass
                 
             except IOError:
