@@ -9,11 +9,11 @@ except:
 
 class BluetoothThread(threading.Thread):
 
-    def __init__(self, label_update_cb, show_markers_cb):
+    def __init__(self, label_update_cb, show_blankscreen_cb):
         threading.Thread.__init__(self)
         
         self.label_update_cb = label_update_cb
-        self.show_markers_cb = show_markers_cb
+        self.show_blankscreen_cb = show_blankscreen_cb
         self.killThread = False
         self.server_sock=BluetoothSocket(RFCOMM)
         self.client_sock=BluetoothSocket(RFCOMM)
@@ -61,8 +61,6 @@ class BluetoothThread(threading.Thread):
                 print("Accepted Connection")
                 connectionOnPrevLoop = True
                 
-                self.show_marker_ui()
-                
                 try:
                     while self.killThread == False:
                         data = self.client_sock.recv(1024)
@@ -72,7 +70,8 @@ class BluetoothThread(threading.Thread):
                             break
                         elif(data == "<ConnectionConfirm></ConnectionConfirm>"):
                             self.client_sock.send("<ConnectionConfirm></ConnectionConfirm>")
-                            print("Sent <ConnectionConfirm></ConnectionConfirm>")
+                            print("Connection Confirmed")
+                            self.show_blankscreen_ui()
                 except IOError:
                     print("Connection broke")
                     pass
@@ -93,5 +92,5 @@ class BluetoothThread(threading.Thread):
         self.killThread = True
         self.client_sock.shutdown(2)
     
-    def show_marker_ui(self):
-        gobject.idle_add(self.show_markers_cb)
+    def show_blankscreen_ui(self):
+        gobject.idle_add(self.show_blankscreen_cb)

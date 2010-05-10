@@ -2,7 +2,7 @@
 # Enter application, select UI To set-up and launch
 
 import sys, BluetoothThread, gobject
-from MarkerUI import MarkerUI
+from BlankScreen import BlankScreen
 try:
     import pygtk
     pygtk.require("2.0")
@@ -34,7 +34,7 @@ class MobileEyeUI:
         
         self.window.show()
         
-        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_markers)
+        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen)
         
         if self.window:
             self.window.connect("destroy", self.on_RootWindow_destroy)
@@ -72,9 +72,13 @@ class MobileEyeUI:
     def startBluetoothThread(self):
         self.bluetoothThread.start()
     
+    def show_blankScreen(self):
+        print("Showing blank projection")
+        self.blankScreen = BlankScreen(self)
+    
     def show_markers(self):
         print("Need to show markers");
-        markerUI = MarkerUI(self)
+        self.markerUI = MarkerUI(self, 45)
         
     
 if __name__ == "__main__":

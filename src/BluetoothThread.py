@@ -4,16 +4,18 @@ import threading, Queue, time, gobject
 try:
     import gtk
     import gtk.glade
+    from xml.dom import minidom
 except:
     sys.exit(1)
 
 class BluetoothThread(threading.Thread):
 
-    def __init__(self, label_update_cb, show_markers_cb):
+    def __init__(self, label_update_cb, show_blankscreen_cb, show_marker_cb):
         threading.Thread.__init__(self)
         
         self.label_update_cb = label_update_cb
-        self.show_markers_cb = show_markers_cb
+        self.show_blankscreen_cb = show_blankscreen_cb
+        self.show_marker_cb = show_marker_cb
         self.killThread = False
         self.server_sock=BluetoothSocket(RFCOMM)
         self.client_sock=BluetoothSocket(RFCOMM)
@@ -70,10 +72,27 @@ class BluetoothThread(threading.Thread):
                             break
                         elif(data == "<ConnectionConfirm></ConnectionConfirm>"):
                             self.client_sock.send("<ConnectionConfirm></ConnectionConfirm>")
-                            print("Sent <ConnectionConfirm></ConnectionConfirm>")
-                            self.show_marker_ui()
+                            print("Connection Confirmed")
+                            self.show_blankscreen_ui(True)
+                        else:
+                            xmldoc = minidom.parseString(data)
+                            for e in xmldoc.childNodes:
+                                if e.nodeType == e.ELEMENT_NODE:
+                                    if e.localName == "ShowMarkers":
+                                        projectorAngleString = self.getText(e.childNodes)
+                                        projectorAngle = float(projectorAngleString)
+                                        self.show_marker_ui(True, projectorAngle)
+                                        break
+                                    elif e.localName == "HideMarkers":
+                                        self.show_marker_ui(False, 0)
+                                    
+                            #firstnode = xmldoc.firstChild
+                            #if firstnode == "<ShowMarkers>"
+                            
                 except IOError:
                     print("Connection broke")
+                    self.show_blankscreen_ui(False)
+                    self.show_marker_ui(False, 0)
                     pass
                 
             except IOError:
@@ -81,7 +100,14 @@ class BluetoothThread(threading.Thread):
         
         if self.run == False:
             self.server_sock.close()
-        
+    
+    def getText(self, nodeList):
+        text = ""
+        for node in nodeList:
+            if node.nodeType == node.TEXT_NODE:
+                text = text + node.data
+        return text
+    
     def update_label(self, msg):
         gobject.idle_add(self.label_update_cb, msg)
         #gtk.gdk.threads_enter()
@@ -92,5 +118,8 @@ class BluetoothThread(threading.Thread):
         self.killThread = True
         self.client_sock.shutdown(2)
     
-    def show_marker_ui(self):
-        gobject.idle_add(self.show_markers_cb)
+    def show_blankscreen_ui(self, shouldDisplay):
+        gobject.idle_add(self.show_blankscreen_cb, shouldDisplay)
+    
+    def show_marker_ui(self, shouldDisplay, rotationAngle):
+        gobject.idle_add(self.show_marker_cb, shouldDisplay, rotationAngle)

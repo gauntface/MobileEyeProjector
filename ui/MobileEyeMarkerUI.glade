@@ -4,9 +4,9 @@
   <!-- interface-naming-policy project-wide -->
   <widget class="GtkWindow" id="RootWindow">
     <child>
-      <widget class="GtkImage" id="image1">
+      <widget class="GtkImage" id="MarkerImg">
         <property name="visible">True</property>
-        <property name="pixbuf">./res/images/markers.png</property>
+        <property name="pixbuf">res/images/markers.png</property>
       </widget>
     </child>
   </widget>

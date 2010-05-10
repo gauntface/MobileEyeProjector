@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-naming-policy project-wide -->
+  <widget class="GtkWindow" id="RootWindow">
+    <child>
+      <placeholder/>
+    </child>
+  </widget>
+</glade-interface>

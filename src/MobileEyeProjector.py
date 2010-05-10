@@ -2,7 +2,7 @@
 # Enter application, select UI To set-up and launch
 
 import sys, BluetoothThread, gobject
-from MarkerUI import MarkerUI
+from BlankScreen import BlankScreen
 try:
     import pygtk
     pygtk.require("2.0")
@@ -25,8 +25,8 @@ class MobileEyeUI:
         
         self.window = self.wTree.get_widget("RootWindow")
         
-        self.window.fullscreen()
-        self.isFullscreen = True
+        #self.window.fullscreen()
+        self.isFullscreen = False
         self.window.connect('key_press_event', self.on_RootWindow_key_press_event)
         
         self.bluetoothLabel = self.wTree.get_widget("bluetoothLabel")
@@ -34,7 +34,7 @@ class MobileEyeUI:
         
         self.window.show()
         
-        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_markers)
+        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen, self.show_markers)
         
         if self.window:
             self.window.connect("destroy", self.on_RootWindow_destroy)
@@ -57,6 +57,8 @@ class MobileEyeUI:
             else:
                 self.window.fullscreen()
                 self.isFullscreen = True
+        elif event.keyval == 114:
+            self.bluetoothThread.signal_reset_connection()
     
     def close_program(self):
         self.bluetoothThread.signal_kill_thread()
@@ -72,9 +74,17 @@ class MobileEyeUI:
     def startBluetoothThread(self):
         self.bluetoothThread.start()
     
-    def show_markers(self):
-        print("Need to show markers");
-        markerUI = MarkerUI(self)
+    def show_blankScreen(self, shouldDisplay):
+        if shouldDisplay:
+            print("Showing blank projection")
+            self.blankScreen = BlankScreen(self)
+        elif self.blankScreen:
+            self.blankScreen.hide()
+    
+    def show_markers(self, shouldDisplay, rotationAngle):
+        print("Showing markers")
+        if self.blankScreen:
+            self.blankScreen.show_markers(shouldDisplay, rotationAngle)
         
     
 if __name__ == "__main__":
