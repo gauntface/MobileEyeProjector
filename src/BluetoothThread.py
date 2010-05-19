@@ -16,6 +16,7 @@ class BluetoothThread(threading.Thread):
         self.label_update_cb = label_update_cb
         self.show_blankscreen_cb = show_blankscreen_cb
         self.show_marker_cb = show_marker_cb
+        self.change_marker_cb = change_marker_cb
         self.killThread = False
         self.server_sock=BluetoothSocket(RFCOMM)
         self.client_sock=BluetoothSocket(RFCOMM)
@@ -88,7 +89,8 @@ class BluetoothThread(threading.Thread):
                                     elif e.localName == "MarkerPosition":
                                         cornerCoords = self.getText(e.childNodes)
                                         cornerCoordsArray = cornerCoords.split(',')
-                                        self.changeMarkerImage(cornerCoords)
+                                        print cornerCoordsArray
+                                        self.change_marker_cb(cornerCoordsArray)
                                     
                             #firstnode = xmldoc.firstChild
                             #if firstnode == "<ShowMarkers>"

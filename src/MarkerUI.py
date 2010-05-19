@@ -81,14 +81,25 @@ class MarkerUI:
         loader.close()
         return pixbuf
     
-    def change_markers(self, cornerCoords):
+    def change_marker(self, cornerCoords):
         
-        imageID = cornerCoord[0]
+        imageID = int(cornerCoords[0])
         
-        pilImg = Image.open("./ui/res/images/markers.png")
-        
-        
-        self.markerImg = pilImg;
+        if(imageID == -1):
+            pilImg = Image.open("./ui/res/images/products/-1.png")
+        elif(imageID == 0):
+            pilImg = Image.open("./ui/res/images/products/0.png")
+        elif(imageID == 1):
+            pilImg = Image.open("./ui/res/images/products/1.png")
+        elif(imageID == 2):
+            pilImg = Image.open("./ui/res/images/products/2.png")
+        elif(imageID == 3):
+            pilImg = Image.open("./ui/res/images/products/3.png")
+        elif(imageID == 4):
+            pilImg = Image.open("./ui/res/images/products/4.png")
+            
+        pixbufImg = self.image2pixbuf(pilImg)
+        self.markerImg.set_from_pixbuf(pixbufImg)
     
 if __name__ == "__main__":
     mobileEye = MarkerUI()

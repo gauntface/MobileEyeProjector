@@ -89,7 +89,7 @@ class MobileEyeUI:
     def change_markers(self, cornerCoords):
         print("Changing markers")
         if self.blankScreen:
-            self.blankScreen.change_markers(cornerCoords)
+            self.blankScreen.change_marker(cornerCoords)
     
 if __name__ == "__main__":
     mobileEye = MobileEyeUI()
