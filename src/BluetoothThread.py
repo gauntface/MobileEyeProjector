@@ -10,7 +10,7 @@ except:
 
 class BluetoothThread(threading.Thread):
 
-    def __init__(self, label_update_cb, show_blankscreen_cb, show_marker_cb):
+    def __init__(self, label_update_cb, show_blankscreen_cb, show_marker_cb, change_marker_cb):
         threading.Thread.__init__(self)
         
         self.label_update_cb = label_update_cb
@@ -85,6 +85,10 @@ class BluetoothThread(threading.Thread):
                                         break
                                     elif e.localName == "HideMarkers":
                                         self.show_marker_ui(False, 0)
+                                    elif e.localName == "MarkerPosition":
+                                        cornerCoords = self.getText(e.childNodes)
+                                        cornerCoordsArray = cornerCoords.split(',')
+                                        self.changeMarkerImage(cornerCoords)
                                     
                             #firstnode = xmldoc.firstChild
                             #if firstnode == "<ShowMarkers>"

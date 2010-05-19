@@ -68,6 +68,11 @@ class BlankScreen:
         elif self.markerUI:
             self.markerUI.hide()
     
+    def change_marker(self, cornerCoords):
+        print("Changing Markers")
+        if self.markerUI:
+            self.markerUI.change_marker(cornerCoords)
+    
 if __name__ == "__main__":
     mobileEye = BlankScreen()
     

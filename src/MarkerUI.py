@@ -26,6 +26,10 @@ class MarkerUI:
         self.markerImg = self.wTree.get_widget("MarkerImg")
         
         pilImg = Image.open("./ui/res/images/markers.png")
+        
+        # Reset rotation amount to as not using hardware
+        rotationAmount = 0;
+        
         pilImg = pilImg.rotate(rotationAmount, Image.NEAREST, True)
         pixbufImg = self.image2pixbuf(pilImg)
         
@@ -76,6 +80,15 @@ class MarkerUI:
         pixbuf = loader.get_pixbuf()
         loader.close()
         return pixbuf
+    
+    def change_markers(self, cornerCoords):
+        
+        imageID = cornerCoord[0]
+        
+        pilImg = Image.open("./ui/res/images/markers.png")
+        
+        
+        self.markerImg = pilImg;
     
 if __name__ == "__main__":
     mobileEye = MarkerUI()

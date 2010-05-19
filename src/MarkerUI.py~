@@ -31,8 +31,8 @@ class MarkerUI:
         
         self.markerImg.set_from_pixbuf(pixbufImg)
         
-        #self.window.fullscreen()
-        self.isFullscreen = False
+        self.window.fullscreen()
+        self.isFullscreen = True
         self.window.connect('key_press_event', self.on_RootWindow_key_press_event)
         
         self.window.show()
