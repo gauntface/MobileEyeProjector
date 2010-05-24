@@ -91,6 +91,9 @@ class MobileEyeUI:
         if self.blankScreen:
             self.blankScreen.change_marker(cornerCoords)
     
+    def send_bluetooth_msg(self, msg):
+        self.bluetoothThread.send(msg)
+        
 if __name__ == "__main__":
     mobileEye = MobileEyeUI()
     mobileEye.startBluetoothThread()

@@ -34,7 +34,7 @@ class MobileEyeUI:
         
         self.window.show()
         
-        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen, self.show_markers)
+        self.bluetoothThread = BluetoothThread.BluetoothThread(self.update_bluetooth_label, self.show_blankScreen, self.show_markers, self.change_markers)
         
         if self.window:
             self.window.connect("destroy", self.on_RootWindow_destroy)
@@ -86,6 +86,10 @@ class MobileEyeUI:
         if self.blankScreen:
             self.blankScreen.show_markers(shouldDisplay, rotationAngle)
         
+    def change_markers(self, cornerCoords):
+        print("Changing markers")
+        if self.blankScreen:
+            self.blankScreen.change_marker(cornerCoords)
     
 if __name__ == "__main__":
     mobileEye = MobileEyeUI()

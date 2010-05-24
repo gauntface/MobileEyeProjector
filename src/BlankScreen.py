@@ -73,6 +73,9 @@ class BlankScreen:
         if self.markerUI:
             self.markerUI.change_marker(cornerCoords)
     
+    def send_bluetooth_msg(self, msg):
+        self.connection_window.send_bluetooth_msg(msg)
+    
 if __name__ == "__main__":
     mobileEye = BlankScreen()
     

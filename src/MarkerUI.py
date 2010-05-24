@@ -100,6 +100,8 @@ class MarkerUI:
             
         pixbufImg = self.image2pixbuf(pilImg)
         self.markerImg.set_from_pixbuf(pixbufImg)
+        
+        self.blank_window.send_bluetooth_msg("<MarkersDisplayed></MarkersDisplayed>")
     
 if __name__ == "__main__":
     mobileEye = MarkerUI()
