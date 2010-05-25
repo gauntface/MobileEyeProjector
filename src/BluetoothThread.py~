@@ -91,6 +91,7 @@ class BluetoothThread(threading.Thread):
                                         cornerCoordsArray = cornerCoords.split(',')
                                         print cornerCoordsArray
                                         self.change_marker_cb(cornerCoordsArray)
+                                        #self.client_sock.send("<MarkersDisplayed></MarkersDisplayed>")
                                     
                             #firstnode = xmldoc.firstChild
                             #if firstnode == "<ShowMarkers>"
@@ -106,6 +107,9 @@ class BluetoothThread(threading.Thread):
         
         if self.run == False:
             self.server_sock.close()
+    
+    def send(self, msg):
+        self.client_sock.send(msg)
     
     def getText(self, nodeList):
         text = ""

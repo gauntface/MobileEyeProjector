@@ -3,7 +3,7 @@
 
 import sys, BluetoothThread, gobject
 
-import cv
+#import cv
 
 try:
     import pygtk

@@ -93,8 +93,6 @@ class BluetoothThread(threading.Thread):
                                         self.change_marker_cb(cornerCoordsArray)
                                         #self.client_sock.send("<MarkersDisplayed></MarkersDisplayed>")
                                     
-                            #firstnode = xmldoc.firstChild
-                            #if firstnode == "<ShowMarkers>"
                             
                 except IOError:
                     print("Connection broke")
@@ -120,9 +118,6 @@ class BluetoothThread(threading.Thread):
     
     def update_label(self, msg):
         gobject.idle_add(self.label_update_cb, msg)
-        #gtk.gdk.threads_enter()
-        #self.msgLabel.set_text(msg)
-        #gtk.gdk.threads_leave()
     
     def signal_kill_thread(self):
         self.killThread = True
